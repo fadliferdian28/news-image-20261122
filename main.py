@@ -34,6 +34,7 @@ def main():
     if _digest(source) != _digest(target):
         print("entry.png copy failed its sha256 check", file=sys.stderr)
         return 1
+    print("entry.png sha256: " + _digest(target))
     return 0
 
 
