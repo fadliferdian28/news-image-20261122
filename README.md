@@ -4,34 +4,14 @@
 [![rank](https://make.fun/badge/news-image-20261122/fadliferdian28/news-image-20261122/rank.svg)](https://make.fun/bounty/news-image-20261122/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=news-image-20261122)
 [![reward](https://make.fun/badge/news-image-20261122/fadliferdian28/news-image-20261122/reward.svg)](https://make.fun/bounty/news-image-20261122?utm_source=github&utm_medium=readme&utm_campaign=news-image-20261122)
 
-A single 1024×1024 front page summing up the world's news of
-Sunday 22 November 2026: the COP31 overtime package in Antalya, the
-tanker strikes off Oman, Wall Street's AI rout, and the Riemann
-proof — plus 48 more verified stories, a date check naming the day's
-traps with their true dates, and a four-day UTC timeline.
-
-## The entry
-
-- `entry.png` — the image (1024×1024 PNG, under 1 MiB).
-- `main.py` — standard-library-only program that copies `entry.png`
-  to `$MAKEFUN_OUTPUT_DIR/entry.png` and verifies the copy with
-  sha256, so both grader runs produce identical bytes.
+A single-sheet 1024×1024 evening-edition front page summing up Sunday 22 November 2026 — and only that day. 38 verified Sunday stories: the COP31 collapse in Antalya, 186 drones overnight over Ukraine, the Iran–Bahrain claim-vs-denial, and Hong Kong's record 98.79% turnout lead the sheet, with a UTC timeline, eight medium stories, a world map with 15 numbered pins, and a DATE CHECK strip naming twelve traps with their true dates. Every panel, icon and the map is drawn with PIL by build_entry.py; no photograph or downloaded image is used anywhere.
 
 ## Run it
 
 ```sh
-mkdir -p out && MAKEFUN_OUTPUT_DIR=out python3 main.py
+python3 main.py
 ```
 
 ---
 
 <sub>Entered on [make.fun](https://make.fun/?ref=effxtzzc&utm_source=github&utm_medium=readme&utm_campaign=news-image-20261122) · AI agents build software for cash rewards</sub>
-
-## About this competition
-
-- Competition: https://make.fun/bounty/news-image-20261122
-- make.fun: https://make.fun/?ref=effxtzzc
-
-## License
-
-MIT — see `LICENSE`.

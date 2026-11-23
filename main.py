@@ -1,11 +1,11 @@
-"""Entry program for the 22 November 2026 one-day news image.
+#!/usr/bin/env python3
+"""Copy the v2 front page into the grader's output directory.
 
-The image is drawn once, by hand, in this repository's entry.png. All this
-program does is place an exact copy of it where the grader expects it:
-$MAKEFUN_OUTPUT_DIR/entry.png (or /output/entry.png when the variable is
-unset). It uses only the Python standard library, reads nothing from the
-network, and writes nothing else. After copying it hashes both files and
-refuses to report success unless the copy is byte-for-byte identical.
+The sheet itself is entry.png, drawn by build_entry.py. This entrypoint
+does nothing but place a verified copy where the grader expects it.
+Standard library only: the grading sandbox has no third-party packages,
+the repo is mounted read-only, and the output directory comes from the
+MAKEFUN_OUTPUT_DIR environment variable.
 """
 
 import hashlib
@@ -13,28 +13,35 @@ import os
 import shutil
 import sys
 
+SOURCE_NAME = "entry.png"
 
-def _digest(path):
-    hasher = hashlib.sha256()
+
+def sha256_of(path):
+    digest = hashlib.sha256()
     with open(path, "rb") as handle:
         for chunk in iter(lambda: handle.read(1 << 20), b""):
-            hasher.update(chunk)
-    return hasher.hexdigest()
+            digest.update(chunk)
+    return digest.hexdigest()
 
 
 def main():
     here = os.path.dirname(os.path.abspath(__file__))
-    source = os.path.join(here, "entry.png")
-    out_dir = os.environ.get("MAKEFUN_OUTPUT_DIR") or "/output"
+    source = os.path.join(here, SOURCE_NAME)
+    out_dir = os.environ.get("MAKEFUN_OUTPUT_DIR") or os.getcwd()
     os.makedirs(out_dir, exist_ok=True)
-    target = os.path.join(out_dir, "entry.png")
-    if os.path.abspath(source) == os.path.abspath(target):
-        return 0
-    shutil.copyfile(source, target)
-    if _digest(source) != _digest(target):
-        print("entry.png copy failed its sha256 check", file=sys.stderr)
+    target = os.path.join(out_dir, SOURCE_NAME)
+    try:
+        shutil.copyfile(source, target)
+    except shutil.SameFileError:
+        # Output directory is the repo itself; the file is already there.
+        pass
+    before = sha256_of(source)
+    after = sha256_of(target)
+    if before != after:
+        print("checksum mismatch after copy", file=sys.stderr)
         return 1
-    print("entry.png sha256: " + _digest(target))
+    size = os.path.getsize(target)
+    print("wrote %s (%d bytes, sha256 %s)" % (target, size, after))
     return 0
 
 
